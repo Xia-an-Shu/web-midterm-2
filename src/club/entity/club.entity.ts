@@ -1,4 +1,4 @@
-import { ManyToMany, JoinTable, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ManyToMany, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { SocioEntity } from 'src/socio/entity/socio.entity';
 
 @Entity()
@@ -8,23 +8,22 @@ export class ClubEntity {
     id: string;
 
     @Column()
-    private name: string;
+    name: string;
 
     @Column()
-    private foundationDate: Date;
+    foundationDate: Date;
 
     @Column()
-    private image: string;
+    image: string;
 
     @Column()
-    private description: string;
+    public description: string;
 
     @ManyToMany(() => SocioEntity, socio => socio.clubs)
-    @JoinTable()
     socios: SocioEntity[];
 
-    public getDesciption(): string {
-        return this.description;
+    public static getDesciption(obj): string {
+        return obj.description;
     }
 
 }

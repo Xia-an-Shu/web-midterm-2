@@ -6,6 +6,9 @@ import { ClubModule } from './club/club.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SocioClubModule } from './socio-club/socio-club.module';
 
+import { SocioEntity } from './socio/entity/socio.entity';
+import { ClubEntity } from './club/entity/club.entity';
+
 @Module({
   imports: [SocioModule, ClubModule,
     TypeOrmModule.forRoot({
@@ -15,7 +18,7 @@ import { SocioClubModule } from './socio-club/socio-club.module';
       username: 'postgres',
       password: 'postgres',
       database: 'social_club',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [SocioEntity, ClubEntity],
       dropSchema: true,
       synchronize: true,
       keepConnectionAlive: true

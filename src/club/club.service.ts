@@ -6,12 +6,6 @@ import { ClubEntity } from './entity/club.entity';
 
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 
-/*
-Defina la lógica de Club, esta debe incluir los métodos findAll, findOne,
-create, update y delete. Dentro de los métodos create y update, valide que la
-descripción no supere el máximo de caracteres permitidos.
-*/
-
 @Injectable()
 export class ClubService {
 
@@ -34,7 +28,7 @@ export class ClubService {
     }
 
     async create(club: ClubEntity): Promise<ClubEntity> {
-        if (club.getDesciption().length > 100) {
+        if (club.description.length > 100) {
             throw new BusinessLogicException("Descripción muy larga", BusinessError.PRECONDITION_FAILED);
         }
 
@@ -47,7 +41,7 @@ export class ClubService {
             throw new BusinessLogicException("Club no encontrado", BusinessError.NOT_FOUND);
         }
 
-        if (club.getDesciption().length > 100) {
+        if (club.description.length > 100) {
             throw new BusinessLogicException("Descripción muy larga", BusinessError.PRECONDITION_FAILED);
         }
 

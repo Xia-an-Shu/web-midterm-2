@@ -6,12 +6,6 @@ import { SocioEntity } from './entity/socio.entity';
 
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 
-/*
-Defina la lógica de Socio, esta debe incluir los métodos findAll, findOne,
-create, update y delete. Dentro de los métodos create y update, realice una
-validación básica del correo electrónico, es decir que tenga el caracter ‘@’.
-*/
-
 @Injectable()
 export class SocioService {
 

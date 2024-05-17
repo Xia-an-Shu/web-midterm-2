@@ -3,10 +3,11 @@ import { SocioService } from './socio.service';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ClubEntity } from 'src/club/entity/club.entity';
+import { SocioEntity } from './entity/socio.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ClubEntity])],
+  imports: [TypeOrmModule.forFeature([SocioEntity])],
   providers: [SocioService]
 })
+
 export class SocioModule {}

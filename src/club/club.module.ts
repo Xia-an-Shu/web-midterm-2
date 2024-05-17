@@ -2,10 +2,12 @@ import { Module } from '@nestjs/common';
 import { ClubService } from './club.service';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { ClubEntity } from './entity/club.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ClubEntity])],
   providers: [ClubService]
 })
+
 export class ClubModule {}

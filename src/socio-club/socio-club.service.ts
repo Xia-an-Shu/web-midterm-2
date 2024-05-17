@@ -7,16 +7,6 @@ import { ClubEntity } from 'src/club/entity/club.entity';
 
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 
-/*
-Defina la lógica de la asociación, esta debe incluir 5 métodos con las
-siguientes acciones:
-- addMemberToClub: Asociar un socio a un grupo.
-- findMembersFromClub: Obtener los socios de un grupo.
-- findMemberFromClub: Obtener un socio de un grupo.
-- updateMembersFromClub: Actualizar los socios de un grupo.
-- deleteMemberFromClub: Eliminar un socio de un grupo.
-*/
-
 @Injectable()
 export class SocioClubService {
 
