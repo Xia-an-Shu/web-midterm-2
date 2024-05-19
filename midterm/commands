@@ -1,0 +1,28 @@
+npm install -g @nestjs/cli
+npm install @faker-js/faker --save-dev
+npm install pg --save
+npm install --save @nestjs/typeorm typeorm
+
+# To create
+nest new midterm
+
+# To run
+npm run start:dev
+
+# To test
+npm test
+
+# Generate module
+nest generate module module-name
+
+# To create class
+nest g cl name/name.entity --no-spec
+
+# To upload to github
+Remove-Item -Recurse -Force midterm\.git
+
+git init
+git add .
+git commit -m 'New start'
+git remote add origin https://github.com/Xia-an-Shu/web-midterm-2.git
+git push -u origin master
