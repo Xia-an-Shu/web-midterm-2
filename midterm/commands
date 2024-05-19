@@ -12,11 +12,25 @@ npm run start:dev
 # To test
 npm test
 
-# Generate module
-nest generate module module-name
-
-# To create class
-nest g cl name/name.entity --no-spec
-
 # To upload to github remove local github created by nest
 Remove-Item -Recurse -Force midterm\.git
+
+# 1. Generate module
+nest generate module module-name
+
+nest g mo club
+nest g mo partner
+nest g mo partner-club
+
+# 2. To create class
+nest g cl name/name.entity --no-spec
+
+nest g cl club/club.entity --no-spec
+nest g cl partner/partner.entity --no-spec
+
+# 3. To create services
+nest g s name
+
+nest g s club
+nest g s partner
+nest g s partner-club
