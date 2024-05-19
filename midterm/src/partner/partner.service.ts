@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { PartnerEntity } from './partner.entity';
+import { Partner } from './partner.entity';
 
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 
@@ -11,15 +11,15 @@ import { BusinessError, BusinessLogicException } from '../shared/errors/business
 export class PartnerService {
 
     constructor(
-        @InjectRepository(PartnerEntity)
-        private partnerRepository: Repository<PartnerEntity>,
+        @InjectRepository(Partner)
+        private partnerRepository: Repository<Partner>,
     ) { }
     
-    async findAll(): Promise<PartnerEntity[]> {
+    async findAll(): Promise<Partner[]> {
         return this.partnerRepository.find({ relations: ['clubs'] });
     }
 
-    async findOne(id: string): Promise<PartnerEntity> {
+    async findOne(id: string): Promise<Partner> {
         const partner = await this.partnerRepository.findOne({where: {id}, relations: ['clubs']});
         if (!partner) {
             throw new BusinessLogicException("Partner not found", BusinessError.NOT_FOUND);
@@ -28,7 +28,7 @@ export class PartnerService {
         return partner;
     }
 
-    async create(partner: PartnerEntity): Promise<PartnerEntity> {
+    async create(partner: Partner): Promise<Partner> {
         if (!partner.email.includes('@')) {
             throw new BusinessLogicException("Invalid email", BusinessError.PRECONDITION_FAILED);
         }
@@ -36,7 +36,7 @@ export class PartnerService {
         return this.partnerRepository.save(partner);
     }
 
-    async update(id: string, partner: PartnerEntity): Promise<PartnerEntity> {
+    async update(id: string, partner: Partner): Promise<Partner> {
         const persistedPartner = await this.partnerRepository.findOne({where: {id}});
         if (!persistedPartner) {
             throw new BusinessLogicException("Partner not found", BusinessError.NOT_FOUND);

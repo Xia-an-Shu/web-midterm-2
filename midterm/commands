@@ -2,6 +2,7 @@ npm install -g @nestjs/cli
 npm install @faker-js/faker --save-dev
 npm install pg --save
 npm install --save @nestjs/typeorm typeorm
+npm install sqlite3 --save
 
 # To create
 nest new midterm

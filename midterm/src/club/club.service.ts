@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { ClubEntity } from './club.entity';
+import { Club } from './club.entity';
 
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 
@@ -11,39 +11,39 @@ import { BusinessError, BusinessLogicException } from '../shared/errors/business
 export class ClubService {
 
     constructor(
-        @InjectRepository(ClubEntity)
-        private clubRepository: Repository<ClubEntity>,
+        @InjectRepository(Club)
+        private clubRepository: Repository<Club>,
     ) { }
 
-    async findAll(): Promise<ClubEntity[]> {
-        return this.clubRepository.find({ relations: ['socios'] });
+    async findAll(): Promise<Club[]> {
+        return this.clubRepository.find({ relations: ['partners'] });
     }
 
-    async findOne(id: string): Promise<ClubEntity> {
-        const club = await this.clubRepository.findOne({where: {id}, relations: ['socios']});
+    async findOne(id: string): Promise<Club> {
+        const club = await this.clubRepository.findOne({where: {id}, relations: ['partners']});
         if (!club) {
-            throw new BusinessLogicException("Club no encontrado", BusinessError.NOT_FOUND);
+            throw new BusinessLogicException("Club not found", BusinessError.NOT_FOUND);
         }
 
         return club;
     }
 
-    async create(club: ClubEntity): Promise<ClubEntity> {
+    async create(club: Club): Promise<Club> {
         if (club.description.length > 100) {
-            throw new BusinessLogicException("Descripción muy larga", BusinessError.PRECONDITION_FAILED);
+            throw new BusinessLogicException("Long description", BusinessError.PRECONDITION_FAILED);
         }
 
         return this.clubRepository.save(club);
     }
 
-    async update(id: string, club: ClubEntity): Promise<ClubEntity> {
+    async update(id: string, club: Club): Promise<Club> {
         const persistedClub = await this.clubRepository.findOne({where: {id}});
         if (!persistedClub) {
-            throw new BusinessLogicException("Club no encontrado", BusinessError.NOT_FOUND);
+            throw new BusinessLogicException("Club not found", BusinessError.NOT_FOUND);
         }
 
         if (club.description.length > 100) {
-            throw new BusinessLogicException("Descripción muy larga", BusinessError.PRECONDITION_FAILED);
+            throw new BusinessLogicException("Long description", BusinessError.PRECONDITION_FAILED);
         }
 
         return await this.clubRepository.save({...persistedClub, ...club});
@@ -52,7 +52,7 @@ export class ClubService {
     async delete(id: string) {
         const persistedClub = await this.clubRepository.findOne({where: {id}});
         if (!persistedClub) {
-            throw new BusinessLogicException("Club no encontrado", BusinessError.NOT_FOUND);
+            throw new BusinessLogicException("Club not found", BusinessError.NOT_FOUND);
         }
 
         await this.clubRepository.remove(persistedClub);

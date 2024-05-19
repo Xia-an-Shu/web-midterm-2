@@ -1,9 +1,9 @@
 import { ManyToMany, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { PartnerEntity } from "../partner/partner.entity";
+import { Partner } from "../partner/partner.entity";
 
 @Entity()
-export class ClubEntity {
+export class Club {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -20,11 +20,7 @@ export class ClubEntity {
     @Column()
     description: string;
 
-    @ManyToMany(() => PartnerEntity, partner => partner.clubs)
-    partners: PartnerEntity[];
-
-    public getDesciption(): string {
-        return this.description;
-    }
+    @ManyToMany(() => Partner, partner => partner.clubs)
+    partners: Partner[];
 
 }
