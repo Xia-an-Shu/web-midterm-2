@@ -1,0 +1,599 @@
+# TESTS FOR CLUB
+# BASE URL FOR NEST APP: http://localhost:3000/club
+
+# ~ ~ create a valid club ~ ~ #
+
+# url
+http://localhost:3000/club/
+
+# body
+{
+    "name": "Club Name",
+    "foundationDate": "2021-01-01",
+    "image": "http://image.com",
+    "description": "Club Description"
+}
+
+# post response
+var data = pm.response.json();
+pm.globals.set("clubId", data.id);
+
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ create an invalid club ~ ~ #
+
+# url
+http://localhost:3000/club/
+
+# body
+
+{
+    "name": "Club Name",
+    "foundationDate": "2021-01-01",
+    "image": "http://image.com",
+    "description": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
+
+# post response
+pm.test("Status code is 412", function () {
+    pm.response.to.have.status(412);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Long description");
+});
+
+# ~ ~ get all clubs ~ ~ #
+
+# url
+http://localhost:3000/club/
+
+# post response
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Number of clubs > 0", function () {
+    var data = pm.response.json();
+    pm.expect(data.length).to.greaterThan(0);   
+});
+
+# ~ ~ get a club by id ~ ~ #
+
+# url
+http://localhost:3000/club/{{clubId}}
+
+# post response
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+# ~ ~ get a non-existent club by id ~ ~ #
+
+# url
+http://localhost:3000/club/00000000-0000-0000-0000-000000000000
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Club not found");
+});
+
+# ~ ~ update a club ~ ~ #
+
+# url
+http://localhost:3000/club/{{clubId}}
+
+# body
+{
+    "name": "Updated Club Name",
+    "foundationDate": "2021-01-01",
+    "image": "http://image.com",
+    "description": "Updated Club Description"
+}
+
+# post response
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ update a non-existent club ~ ~ #
+
+# url
+http://localhost:3000/club/00000000-0000-0000-0000-000000000000
+
+# body
+{
+    "name": "Updated Club Name",
+    "foundationDate": "2021-01-01",
+    "image": "http://image.com",
+    "description": "Updated Club Description"
+}
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Club not found");
+});
+
+# ~ ~ delete a club ~ ~ #
+
+# url
+http://localhost:3000/club/{{clubId}}
+
+# post response
+pm.test("Status code is 204", function () {
+    pm.response.to.have.status(204);
+});
+
+# ~ ~ delete a non-existent club ~ ~ #
+
+# url
+http://localhost:3000/club/00000000-0000-0000-0000-000000000000
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Club not found");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# TEST FOR MEMBER/PARTNER
+# BASE URL FOR NEST APP: http://localhost:3000/members
+
+# ~ ~ Create a valid member ~ ~ #
+
+# url
+http://localhost:3000/members
+
+# body
+{
+  "name": "John Doe",
+  "email": "test@gmail.com",
+  "birthdate": "1990-01-01"
+}
+
+# post response
+var data = pm.response.json();
+pm.globals.set("memberId", data.id);
+
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ create an invalid member ~ ~ #
+
+# url
+http://localhost:3000/members
+
+# body
+{
+  "name": "John Doe",
+  "email": "invalid",
+  "birthdate": "1990-01-01"
+}
+
+# post response
+pm.test("Status code is 412", function () {
+    pm.response.to.have.status(412);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Invalid email");
+});
+
+# ~ ~ get all members ~ ~ #
+
+# url
+http://localhost:3000/members
+
+# post response
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Number of members > 0", function () {
+    var data = pm.response.json();
+    pm.expect(data.length).to.greaterThan(0);   
+});
+
+# ~ ~ get a member ~ ~ #
+
+# url
+http://localhost:3000/members/{{memberId}}
+
+# post response
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+# ~ ~ get a non-existing member ~ ~ #
+
+# url
+http://localhost:3000/members/00000000-0000-0000-0000-000000000000
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Partner not found");
+});
+
+# ~ ~ update a member ~ ~ #
+
+# url
+http://localhost:3000/members/{{memberId}}
+
+# body
+{
+  "name": "John Doe Changed",
+  "email": "test@gmail.com",
+  "birthdate": "1990-01-01"
+}
+
+# post response
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ update a non-existing member ~ ~ #
+
+# url
+http://localhost:3000/members/00000000-0000-0000-0000-000000000000
+
+# body
+{
+  "name": "John Doe",
+  "email": "test@gmail.com",
+  "birthdate": "1990-01-01"
+}
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Partner not found");
+});
+
+# ~ ~ delete a member ~ ~ #
+
+# url
+http://localhost:3000/members/{{memberId}}
+
+# post response
+pm.test("Status code is 204", function () {
+    pm.response.to.have.status(204);
+});
+
+# ~ ~ delete a non-existing member ~ ~ #
+
+# url
+http://localhost:3000/members/00000000-0000-0000-0000-000000000000
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Partner not found");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# TEST FOR CLUB-MEMBER ASSOCIATION
+
+Tests to create:
+- add club to partner
+- asociate partner to a non-existing club
+- get all club members
+- get a member that belongs to a club
+- get a member that is not part of a club
+- update all club members
+- update all club members with a non-existing member
+- delete a member that belongs to a club
+- delete a member that is not part of a club
+
+# ~ ~ create a valid club beforehand ~ ~ #
+
+# url
+http://localhost:3000/club/
+
+# body
+{
+    "name": "Club Name",
+    "foundationDate": "2021-01-01",
+    "image": "http://image.com",
+    "description": "Club Description"
+}
+
+# post response
+var data = pm.response.json();
+pm.globals.set("clubId", data.id);
+
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ create a valid member #1 beforehand ~ ~ #
+
+# url
+http://localhost:3000/members
+
+# body
+{
+  "name": "John Doe",
+  "email": "test@gmail.com",
+  "birthdate": "1990-01-01"
+}
+
+# post response
+var data = pm.response.json();
+pm.globals.set("memberId1", data.id);
+
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ create a valid member #2 beforehand ~ ~ #
+
+# url
+http://localhost:3000/members
+
+# body
+{
+  "name": "Carl Johnson",
+  "email": "test@gmail.com",
+  "birthdate": "1990-01-01"
+}
+
+# post response
+var data = pm.response.json();
+pm.globals.set("memberId2", data.id);
+
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ add club to member #1 ~ ~ #
+
+# url
+http://localhost:3000/clubs/{{clubId}}/members/{{memberId1}}
+
+# post response
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ add club to member #2 ~ ~ #
+
+# url
+http://localhost:3000/clubs/{{clubId}}/members/{{memberId2}}
+
+# post response
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ associate member to a non-existing club ~ ~ #
+
+# url
+http://localhost:3000/clubs/00000000-0000-0000-0000-000000000000/members/{{memberId1}}
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Club not found");
+});
+
+# ~ ~ get all club members ~ ~ #
+
+# url
+http://localhost:3000/clubs/{{clubId}}/members
+
+# post response
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Number of members > 0", function () {
+    var data = pm.response.json();
+    pm.expect(data.length).to.greaterThan(0);   
+});
+
+# ~ ~ get a member that belongs to a club ~ ~ #
+
+# url
+http://localhost:3000/clubs/{{clubId}}/members/{{memberId1}}
+
+# post response
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+# ~ ~ get a member that is not part of a club ~ ~ #
+
+# url
+http://localhost:3000/clubs/{{clubId}}/members/00000000-0000-0000-0000-000000000000
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Partner not found");
+});
+
+# ~ ~ update all club members ~ ~ #
+
+# url
+http://localhost:3000/clubs/{{clubId}}/members
+
+# body
+[
+    {
+        "id": "{{memberId1}}",
+        "name": "John Doe Changed",
+        "email": "test@gmail.com",
+        "birthdate": "1990-01-01"
+    },
+    {
+        "id": "{{memberId2}}",
+        "name": "Carl Johnson Changed",
+        "email": "test@gmail.com",
+        "birthdate": "1990-01-01"
+    }
+]
+
+# post response
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+# ~ ~ update all club members with a non-existing member ~ ~ #
+
+# url
+http://localhost:3000/clubs/{{clubId}}/members
+
+# body
+[
+    {
+        "id": "{{memberId1}}",
+        "name": "John Doe Changed",
+        "email": "test@gmail.com",
+        "birthdate": "1990-01-01"
+    },
+    {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "Carl Johnson Changed",
+        "email": "test@gmail.com",
+        "birthdate": "1990-01-01"
+    }
+]
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Partner not found");
+});
+
+# ~ ~ delete a member that belongs to a club ~ ~ #
+
+# url
+http://localhost:3000/clubs/{{clubId}}/members/{{memberId1}}
+
+# post response
+pm.test("Status code is 204", function () {
+    pm.response.to.have.status(204);
+});
+
+# ~ ~ delete a member that is not part of a club ~ ~ #
+
+# url
+http://localhost:3000/clubs/{{clubId}}/members/{{memberId1}}
+
+# post response
+pm.test("Status code is 404", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Response body contains error message", function () {
+    var data = pm.response.json();
+    pm.expect(data.message).to.eql("Partner not found");
+});
+
+
+    

@@ -1,4 +1,5 @@
 import { ManyToMany, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 import { Partner } from "../partner/partner.entity";
 
@@ -21,6 +22,7 @@ export class Club {
     description: string;
 
     @ManyToMany(() => Partner, partner => partner.clubs)
+    @Exclude({ toPlainOnly: true })
     partners: Partner[];
 
 }

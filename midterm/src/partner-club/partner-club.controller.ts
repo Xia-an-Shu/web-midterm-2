@@ -3,28 +3,13 @@ import { plainToInstance } from 'class-transformer';
 
 import { PartnerClubService } from './partner-club.service';
 import { Partner } from '../partner/partner.entity';
-import { Club } from '../club/club.entity';
 import { PartnerDto } from '../partner/partner.dto';
-import { ClubDto } from '../club/club.dto'; 
 
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 
 @UseInterceptors(BusinessErrorsInterceptor)
 @Controller('clubs')
 export class PartnerClubController {
-
-    /*
-    Agregue la ruta
-    de modo que se acceda a los endpoints a través del club (ej.
-    /clubs/1/members/4 para findMemberFromClub) e implemente los
-    endpoints:
-    - addMemberToClub
-    - findMembersFromClub
-    - findMemberFromClub
-    - updateMembersFromClub
-    - deleteMemberFromClub
-
-    */
 
     constructor(private readonly partnerClubService: PartnerClubService) {}
 
@@ -40,7 +25,7 @@ export class PartnerClubController {
 
     @Get(':clubId/members/:partnerId')
     async findMemberFromClub(@Param('partnerId') partnerId: string, @Param('clubId') clubId: string) {
-        return this.partnerClubService.findMemberFromClub(partnerId, clubId);
+        return this.partnerClubService.findMemberFromClub(clubId, partnerId);
     }
 
     @Post(':clubId/members')
@@ -52,7 +37,7 @@ export class PartnerClubController {
     @Delete(':clubId/members/:partnerId')
     @HttpCode(204)
     async deleteMemberFromClub(@Param('partnerId') partnerId: string, @Param('clubId') clubId: string) {
-        return await this.partnerClubService.deleteMemberFromClub(partnerId, clubId);
+        return await this.partnerClubService.deleteMemberFromClub(clubId, partnerId);
     }
 
 }

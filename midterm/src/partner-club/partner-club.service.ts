@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { instanceToPlain } from 'class-transformer';
 
 import { Partner } from '../partner/partner.entity';
 import { Club } from '../club/club.entity';
@@ -40,10 +41,21 @@ export class PartnerClubService {
         partner.clubs = partner.clubs || [];
         partner.clubs.push(club);
         await this.partnerRepository.save(partner);
+        const updatedClubEnt = instanceToPlain(updatedClub) as Club
+        // Add updatedClub.partners to updatedClubEnt but do not include their clubs
+        updatedClubEnt.partners = updatedClub.partners.map(partner => {
+            return {
+                id: partner.id,
+                name: partner.name,
+                email: partner.email,
+                birthdate: partner.birthdate,
+                clubs: []
+            }
+        });
 
-        // console.log("Club after adding:\n", updatedClub);
+        // console.log("Club after adding:\n", updatedClubEnt);
 
-        return updatedClub;
+        return updatedClubEnt;
     }
 
     async findMembersFromClub(clubId: string): Promise<Partner[]> {
@@ -73,6 +85,14 @@ export class PartnerClubService {
         const club = await this.clubRepository.findOne({where: {id: clubId}, relations: ['partners']});
         if (!club) {
             throw new BusinessLogicException("Club not found", BusinessError.NOT_FOUND);
+        }
+
+        // Check that each partner of partners exists on the database
+        for (const partner of partners) {
+            const partnerExists = await this.partnerRepository.findOne({where: {id: partner.id}});
+            if (!partnerExists) {
+                throw new BusinessLogicException("Partner not found", BusinessError.NOT_FOUND);
+            }
         }
 
         club.partners = partners;
