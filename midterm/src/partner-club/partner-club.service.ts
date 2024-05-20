@@ -19,7 +19,7 @@ export class PartnerClubService {
     ) { }
 
     async addMemberToClub(partnerId: string, clubId: string): Promise<Club> {
-        const partner = await this.partnerRepository.findOne({where: {id: partnerId}});
+        const partner = await this.partnerRepository.findOne({where: {id: partnerId}, relations: ["clubs"]});
         if (!partner) {
             throw new BusinessLogicException("Partner not found", BusinessError.NOT_FOUND);
         }
@@ -31,9 +31,15 @@ export class PartnerClubService {
 
         // console.log("Club before adding:\n", club);
 
+        // Add the partner to the club
         club.partners = club.partners || [];
         club.partners.push(partner);
         const updatedClub = await this.clubRepository.save(club);
+
+        // Add the club to the partner
+        partner.clubs = partner.clubs || [];
+        partner.clubs.push(club);
+        await this.partnerRepository.save(partner);
 
         // console.log("Club after adding:\n", updatedClub);
 

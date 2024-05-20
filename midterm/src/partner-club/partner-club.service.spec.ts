@@ -78,6 +78,13 @@ describe('PartnerClubService', () => {
     // Club.partners[i] will not contain value "clubs" but partners[i] will, so we only check that the id is contained
     let listOfIds = updatedClub.partners.map(partner => partner.id);
     expect(listOfIds).toContain(partner.id);
+
+    // Check that the partner has the club in its clubs
+    const updatedPartner = await partnerRepository.findOne({where: {id: partner.id}, relations: ['clubs']});
+    expect(updatedPartner).not.toBeNull();
+    let listOfClubIds = updatedPartner.clubs.map(club => club.id);
+    expect(listOfClubIds).toContain(club.id);
+
   });
 
   it('should find members from club', async () => {

@@ -1,8 +1,12 @@
+# Libs
+
 npm install -g @nestjs/cli
 npm install @faker-js/faker --save-dev
 npm install pg --save
 npm install --save @nestjs/typeorm typeorm
 npm install sqlite3 --save
+npm install class-validator --save
+npm install class-transformer --save
 
 # To create
 nest new midterm
@@ -13,7 +17,7 @@ npm run start:dev
 # To test
 npm test
 
-# To upload to github remove local github created by nest
+# To upload to github remove local github created by nest (powershell)
 Remove-Item -Recurse -Force midterm\.git
 
 # 1. Generate module
@@ -35,3 +39,20 @@ nest g s name
 nest g s club
 nest g s partner
 nest g s partner-club
+
+# 5. To create controller
+nest g co name --no-spec
+
+nest g co club --no-spec
+nest g co partner --no-spec
+nest g co partner-club --no-spec
+
+# 6. Interceptor of controller errors
+nest g itc shared/interceptors/business-errors --no-spec
+
+# 7. To create dto
+nest g cl name/name.dto --no-spec
+
+nest g cl club/club.dto --no-spec
+nest g cl partner/partner.dto --no-spec
+
